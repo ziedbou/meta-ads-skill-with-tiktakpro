@@ -1,6 +1,6 @@
 # meta-ads-skill-with-tiktakpro
 
-Skills Claude / Cursor pour auditer les **Meta Ads** sur le marché **e-commerce Tunisie (COD)**, calibrés avec les réalités des marchands **[TikTak PRO](https://tiktakpro.com/)**.
+Skills Claude / Cursor pour les marchands **[TikTak PRO](https://tiktakpro.com/)** : audit **Meta Ads** Tunisie (COD), **analyse data boutique** (`analytics_*`), + **design de boutique** via MCP.
 
 ---
 
@@ -30,7 +30,7 @@ Skills Claude / Cursor pour auditer les **Meta Ads** sur le marché **e-commerce
 | Contact | [tiktakpro.com/contact](https://tiktakpro.com/contact) · `contact@tiktakpro.com` · +216 55 609 111 |
 | Créer une boutique | [tiktakpro.com](https://tiktakpro.com/) → *Créer ma boutique gratuitement* |
 
-Ces skills ne remplacent pas le dashboard TikTak : ils aident un agent IA à **lire les Meta Ads comme un media buyer TN** (calendrier salaires, saison produit, CPA local), idéalement en croisant le **MCP TikTak** (`analytics_ads`, commandes).
+Ces skills ne remplacent pas le dashboard TikTak : ils aident un agent IA à **lire les Meta Ads et la data boutique comme un ops / media buyer TN** (calendrier salaires, saison produit, CPA local, confirmation COD) et à **composer un design boutique** via le **MCP TikTak**.
 
 ---
 
@@ -42,6 +42,7 @@ Fork conceptuel de [kelpi-ai/meta-ads-skills](https://github.com/kelpi-ai/meta-a
 - Ramadan / Aïd / rentrée / météo / besoin **avant** de blâmer le CTR ou la créa
 - échelle **CPA Tunisie** (≠ benchmarks USA ; plafond typique ~2 $)
 - classement produit **saisonnier vs evergreen**
+- briefing **ventes** + **ops confirmation** via MCP `analytics_*` (jamais pagination commandes)
 
 ## Skills
 
@@ -49,15 +50,30 @@ Fork conceptuel de [kelpi-ai/meta-ads-skills](https://github.com/kelpi-ai/meta-a
 |-------|------|
 | [`skills/meta-ads-auditor-tn`](skills/meta-ads-auditor-tn/) | Audit Meta Ads read-only (TN) |
 | [`skills/product-seasonality-tn`](skills/product-seasonality-tn/) | Produit de saison ou pas + implication ads |
+| [`skills/tiktak-sales-pulse-tn`](skills/tiktak-sales-pulse-tn/) | Briefing matin ventes / CA / AOV / top produits |
+| [`skills/tiktak-confirmation-ops-tn`](skills/tiktak-confirmation-ops-tn/) | Ops confirmation COD (équipe, doublons, délais) |
+| [`skills/tiktak-store-design`](skills/tiktak-store-design/) | Beau design boutique via MCP (palette → home) |
 
-Chaque skill contient `SKILL.md` + `reference.md` (chiffres agrégés réseau TikTak).
+- Ads / data : `SKILL.md` + `reference.md`.
+- Design : `SKILL.md` + `references/` (checklist MCP, recettes niche, home).
+
+### Enchaînement data
+
+```
+tiktak-sales-pulse-tn
+  ├─ problème ads / CPA     → product-seasonality-tn → meta-ads-auditor-tn
+  └─ problème confirmation  → tiktak-confirmation-ops-tn
+```
 
 ## Install
 
 ### Cursor / Claude Code (projet)
 
 ```bash
-cp -a skills/meta-ads-auditor-tn skills/product-seasonality-tn /chemin/vers/ton-projet/.cursor/skills/
+cp -a skills/meta-ads-auditor-tn skills/product-seasonality-tn \
+      skills/tiktak-sales-pulse-tn skills/tiktak-confirmation-ops-tn \
+      skills/tiktak-store-design \
+  /chemin/vers/ton-projet/.cursor/skills/
 
 # ou Claude Code
 cp -a skills/* ~/.claude/skills/
@@ -71,12 +87,17 @@ npx skills add ziedbou/meta-ads-skill-with-tiktakpro --all
 
 ## Usage
 
-1. Brancher un **Meta Ads MCP** en lecture (`https://mcp.facebook.com/ads` ou équivalent).
-2. Optionnel : **MCP TikTak PRO** (`analytics_ads`, commandes) pour croiser CPA boutique / marge.
-3. Demander : *« audit Meta Ads Tunisie »* ou *« ce produit est-il saisonnier ? »*.
+1. **MCP TikTak PRO** (boutique) : `analytics_*` pour data ; `design_*` / `homepage_*` pour le design.
+2. Optionnel : **Meta Ads MCP** en lecture pour l’auditor ads.
+3. Demander par ex. :
+   - *« briefing ventes ce matin »*
+   - *« analyse les confirmations / doublons »*
+   - *« audit Meta Ads Tunisie »*
+   - *« ce produit est-il saisonnier ? »*
+   - *« refais le design de la boutique »*
 
 ## Licence / contexte
 
-Données de calendrier issues d’agrégats commandes TikTak (TN). Skills **read-only** : aucune modification de campagne sans validation humaine.
+Données de calendrier issues d’agrégats commandes TikTak (TN). Skills ads **read-only** : aucune modification de campagne sans validation humaine. Le skill design **écrit** via MCP (`design_set_*`, homepage preview) — proposer avant d’appliquer, snapshots restaurables.
 
 Produit : [TikTak PRO](https://tiktakpro.com/) · Repo skills : [github.com/ziedbou/meta-ads-skill-with-tiktakpro](https://github.com/ziedbou/meta-ads-skill-with-tiktakpro)
