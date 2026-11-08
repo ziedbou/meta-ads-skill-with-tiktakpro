@@ -52,10 +52,10 @@ Fork conceptuel de [kelpi-ai/meta-ads-skills](https://github.com/kelpi-ai/meta-a
 | [`skills/product-seasonality-tn`](skills/product-seasonality-tn/) | Produit de saison ou pas + implication ads |
 | [`skills/tiktak-sales-pulse-tn`](skills/tiktak-sales-pulse-tn/) | Briefing matin ventes / CA / AOV / top produits |
 | [`skills/tiktak-confirmation-ops-tn`](skills/tiktak-confirmation-ops-tn/) | Ops confirmation COD (équipe, doublons, délais) |
-| [`skills/tiktak-store-design`](skills/tiktak-store-design/) | Beau design boutique via MCP (palette → home) |
+| [`skills/tiktak-store-design`](skills/tiktak-store-design/) | Design MCP : catalogue **ou** HTML custom premium (réf. Niglora) |
 
 - Ads / data : `SKILL.md` + `reference.md`.
-- Design : `SKILL.md` + `references/` (checklist MCP, recettes niche, home).
+- Design : `SKILL.md` + `references/` (custom-html, checklist, recettes, home, esthétique).
 
 ### Enchaînement data
 
@@ -95,6 +95,7 @@ npx skills add ziedbou/meta-ads-skill-with-tiktakpro --all
    - *« audit Meta Ads Tunisie »*
    - *« ce produit est-il saisonnier ? »*
    - *« refais le design de la boutique »*
+   - *« landing HTML premium type Niglora »*
 
 ## Licence / contexte
 

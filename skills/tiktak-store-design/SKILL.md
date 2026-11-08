@@ -1,125 +1,121 @@
 ---
 name: tiktak-store-design
 description: >-
-  Concevoir et appliquer un beau design de boutique TikTak PRO via le MCP
-  (palette, polices, navigation, cartes produit, page produit, catégorie,
-  homepage). Utiliser dès qu'on parle de refonte, thème, look & feel, home,
-  header, cartes, page produit, couleurs, ou « faire un beau site » TikTak —
-  même sans le mot design. Ne jamais inventer d'ids catalogue ; toujours
-  design_list_catalog + validation visuelle.
+  Concevoir un beau design TikTak PRO : voie catalogue (palette, nav, cartes,
+  home) OU voie premium HTML custom (bloc HTML template_id 30, Shadow DOM) pour
+  atteindre un résultat type Niglora. Utiliser pour refonte, thème, landing,
+  « beau site », HTML libre, landing mono-produit, ou « comme Niglora ». Toujours
+  MCP + design_list_catalog pour les ids ; aider à écrire le HTML du marchand,
+  ne pas le rabattre vers des sections génériques si il vise le plafond design.
 ---
 
 # TikTak Store Design
 
-Skill Claude / Cursor pour **composer le design d'une boutique TikTak PRO**
-avec le MCP TikTak (jamais l'API REST directe).
-
-Périmètre **v1** : design site (palette → nav → cartes → page produit →
-catégorie → homepage). Catalogue produits, menus de contenu, SEO : hors scope
-sauf demande explicite (voir `tiktak_playbook(topic="store")`).
+Skill Claude / Cursor pour le **design de boutique TikTak PRO** via MCP
+(jamais l’API REST).
 
 ## Doctrine
 
-1. **MCP only.** Namespace TikTak de la boutique cible. Toujours
-   `GetDynamicTools` (schéma) puis `CallDynamicTool`. Jamais REST.
-2. **Playbook d'abord.** Au démarrage d'une session design :
-   `tiktak_playbook(topic="design")`. Pour une refonte boutique entière :
-   `topic="store"`.
-3. **Ne jamais inventer un id.** Palettes, fonts, navigation, cartes, thèmes
-   page produit / catégorie → `design_list_catalog(part=…)`. Si refus outil,
-   lire la liste renvoyée.
-4. **Partir de l'existant.** `design_get_overview()` avant toute écriture.
-5. **Proposer avant d'écrire** (2–3 options + description). Exception :
-   demande impérative courte (« fais ça », « applique X ») → appliquer puis
-   montrer le résultat.
-6. **Ordre fixe** (la palette réécrit header / boutons / footer) :
-   1. Palette (+ polices)
-   2. Navigation (+ top bar)
-   3. Cartes produit (v2 recommandé)
-   4. Page produit
-   5. Page catégorie
-   6. Homepage (preview → validation → publish)
-7. **Homepage = preview.** `pages_ensure_preview` → écrire sur `preview` →
-   lien → accord → `homepage_publish_from_preview`. Pas de
-   `target="home"` sans demande explicite.
-8. **Tout est annulable.** Chaque `design_set_*` snapshot. Rappeler
-   `design_restore_snapshot()`. Ne pas réécrire `css_settings` à la main.
-9. **Beau ≠ générique IA.** Voir `references/aesthetics.md`. Une boutique
-   high-tech ≠ cosmétique ≠ mode. Direction visuelle claire, ancrée niche.
-10. **Vérifier en captures** desktop + mobile après les écritures majeures.
-    Rapporter avec images, pas seulement du texte.
+1. **Deux voies, un plafond.**  
+   - **Voie A — catalogue** : palette → nav → cartes → pages → sections home.  
+   - **Voie B — HTML custom** : 1–2 blocs `HTML` (`template_id` **30**) self-contained.  
+   **Le meilleur rendu plateforme observé = voie B** (réf.
+   [niglora.tiktak-store.com](https://niglora.tiktak-store.com/)).  
+   Si le marchand veut un résultat « wow / landing marque », **aider à écrire
+   son HTML** (`references/custom-html.md`) — ne pas le ramener par défaut
+   vers un assemblage de sections génériques.
+2. **MCP only.** Namespace de la boutique cible. `GetDynamicTools` puis
+   `CallDynamicTool`.
+3. **Playbook.** `tiktak_playbook(topic="design")` en début de session.
+4. **Ids catalogue** (`design_list_catalog`, `template_id`) : ne jamais inventer.
+5. **Partir de l’existant.** `design_get_overview()`.
+6. **Proposer avant d’écrire** (sauf ordre impératif « fais ça »).
+7. **Homepage = preview** puis publish. Pas de `target="home"` sans demande.
+8. **Snapshots.** `design_restore_snapshot()` pour le design système.
+9. **Beau ≠ générique IA.** Voir `references/aesthetics.md`.
+10. **Valider en captures** desktop + mobile. Sur HTML custom, le contenu est
+    dans le **Shadow DOM** : ne pas juger via `innerText` du light DOM.
+
+## Choisir la voie (obligatoire en début de brief)
+
+| Signal marchand | Voie |
+|-----------------|------|
+| Landing 1 produit, story, brand, « plus beau site », copy HTML déjà là | **B — HTML** |
+| Catalogue large, maj faciles, grilles produits dynamiques | **A — catalogue** |
+| Marque + catalogue | **Mix** : design système A + 1 HTML héros/story B |
+
+Lire `references/custom-html.md` dès que la voie B (ou mix) est choisie.
 
 ## When to use
 
-- « Refais le design / le thème / le look de la boutique »
-- Palette, couleurs, polices, header, navigation, top bar
-- Cartes produit, page produit, page catégorie
-- Homepage / accueil / sections hero / grilles produits
-- « Fais un beau site » / « modernise » / « high-tech » / « mode » TikTak
+- Refonte / thème / look & feel / home / header / cartes
+- « Fais un beau site », landing, mono-produit COD
+- HTML libre, éditeur HTML, « comme Niglora », custom landing
+- Palette, polices, navigation TikTak
 
-**Ne pas** confondre avec :
-- `add-builder-section` (ajouter un **type** de section en code)
-- Skills Meta Ads (`meta-ads-auditor-tn`, `product-seasonality-tn`)
+**Ne pas** confondre avec `add-builder-section` (créer un **type** de section
+en code store/backend).
 
-## Prérequis session
-
-1. Identifier le **namespace MCP** de la boutique (ex. `user-tiktak-bayaphone`).
-   En cas de doute : demander. Ne jamais écrire sur une autre company.
-2. Confirmer niche + contraintes (ex. « pas de carousel », boutons navy,
-   téléphone / adresse pour top bar).
-3. Lire `references/mcp-checklist.md` avant la première écriture.
-4. Choisir une **recette** dans `references/recipes.md` (ou adapter).
-
-## Workflow (obligatoire)
+## Workflow voie A (catalogue)
 
 ```
 1) tiktak_playbook(topic="design")
 2) design_get_overview()
-3) Niche + ambiance → proposer recette OU 2–3 options / brique
-4) design_list_catalog(part="palettes"|"fonts"|…) pour les choix
-5) design_apply_palette → design_set_fonts
-6) design_set_navigation → design_set_topbar si besoin
-7) design_set_product_card_theme (v2)
-8) design_set_product_page_theme
-9) design_set_category_page
-10) Homepage : lire references/homepage.md
-    pages_ensure_preview
-    → homepage_build_from_guides OU suggest + add_section(target=preview)
-    → lien preview + captures
-    → après accord : homepage_publish_from_preview
-11) Résumer changements + rappeler design_restore_snapshot()
+3) Recette niche (references/recipes.md) + design_list_catalog
+4) design_apply_palette → design_set_fonts
+5) design_set_navigation → design_set_topbar
+6) design_set_product_card_theme (v2)
+7) design_set_product_page_theme → design_set_category_page
+8) pages_ensure_preview → homepage_build_from_guides OU add_section
+9) Captures → accord → homepage_publish_from_preview
 ```
 
-Si la palette est déjà posée et qu'on retouche seulement la home :
-`website_apply_design(..., apply_theme=False)` — sinon la palette est
-réappliquée.
+Détail home catalogue : `references/homepage.md`.
 
-## Règles dures (pièges fréquents)
+## Workflow voie B (HTML premium)
+
+```
+1) tiktak_playbook(topic="design") + design_get_overview()
+2) Aligner palette / nav / fonts (header-footer TikTak restent cohérents)
+3) Lire references/custom-html.md en entier
+4) pages_ensure_preview
+5) Assurer 1–2 sections template_id=30 (max_per_page=2),
+   design container-fluid, paddings 0
+6) media_upload → URLs dans le HTML
+7) Écrire / itérer values.content (HTML+CSS self-contained, préfixe classes)
+8) Captures (shadow DOM) desktop + mobile
+9) Accordion CTA vers la fiche produit / checkout
+10) Accordion → homepage_publish_from_preview
+```
+
+Champ MCP : `homepage_update_section_values(..., values={"content": "..."})`.
+
+## Règles dures
 
 | Piège | Règle |
 |-------|--------|
-| Ids inventés | Toujours `design_list_catalog` |
-| Palette après couleurs nav custom | Palette **en premier** |
-| Écrire sur `home` direct | Preview d'abord |
-| Liens absolus `https://domaine/…` | Chemins relatifs `/product-list/…` |
-| Carousel vs grille | Demander ; défaut = grille simple (`template` liste produits) si marchand veut « affichage simple » |
-| Couleurs de section codées en dur | Préférer champs couleur libres du builder ; ne pas hardcoder une palette démo |
-| MCP « fetch failed » | Attendre ~20 s, réessayer (pas d'échec définitif au 1er essai) |
-| Mauvaise boutique MCP | Vérifier company / namespace avant toute écriture |
+| Rabattre Niglora-like vers sections catalogue | **Non** — aider le HTML |
+| > 2 blocs HTML | Plafond builder `max_per_page=2` — densifier dans 1–2 `content` |
+| CSS Tailwind du thème dans le HTML | Inutile (Shadow DOM) — CSS inline dans `content` |
+| Liens absolus domaine | Relatifs `/product/…` |
+| Juger HTML via innerText page | Screenshots |
+| Écrire sur `home` direct | Preview d’abord |
+| MCP flaky | Retry ~20 s |
 
 ## Output attendu
 
-Après chaque vague d'écritures :
-- 3–6 bullets : ce qui a changé (palette, nav, cartes, home…)
-- Lien storefront / preview
-- Captures desktop + mobile des zones clés (héros, cartes, une fiche produit)
-- Prochaine étape claire (publier home ? ajuster X ?)
+- Voie choisie (A / B / mix) + pourquoi
+- Ce qui a changé (3–6 bullets)
+- Lien preview / storefront
+- Captures desktop + mobile
+- Prochaine étape
 
-## Références (lire à la demande)
+## Références
 
 | Fichier | Quand |
 |---------|--------|
-| `references/mcp-checklist.md` | Avant / pendant les appels MCP |
-| `references/recipes.md` | Choix niche → combo catalogue |
-| `references/homepage.md` | Composition home, sections, anti-patterns |
-| `references/aesthetics.md` | Direction visuelle, éviter le look IA |
+| `references/custom-html.md` | Voie B / mix — **lire en priorité** pour un design plafond |
+| `references/aesthetics.md` | Direction visuelle |
+| `references/homepage.md` | Home voie A (sections) |
+| `references/recipes.md` | Combos niche catalogue |
+| `references/mcp-checklist.md` | Ordre tools design système |

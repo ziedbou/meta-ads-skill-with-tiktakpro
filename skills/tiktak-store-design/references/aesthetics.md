@@ -1,6 +1,10 @@
 # Direction visuelle — éviter le look IA générique
 
 Le builder TikTak donne des briques ; **toi** tu choisis une direction.
+Le **plafond** esthétique passe souvent par le **HTML custom**
+(`references/custom-html.md`, réf. Niglora) : direction de marque totale,
+pas un empilement de sections démarrées par défaut.
+
 Si on retire le logo et que la home pourrait être n'importe quelle boutique
 Shopify, le branding est trop faible.
 

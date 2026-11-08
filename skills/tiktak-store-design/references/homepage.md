@@ -1,6 +1,11 @@
 # Homepage — composition & anti-patterns
 
-## Squelette recommandé (e-commerce TN)
+> **Plafond design** : landing en **HTML custom** (`template_id` 30) —
+> voir `custom-html.md` et la référence Niglora. Ce fichier couvre surtout
+> la **voie catalogue** (sections builder). Si le brief est « beau comme
+> Niglora / landing marque », ne pas imposer ce squelette catalogue.
+
+## Squelette recommandé (e-commerce TN, voie catalogue)
 
 Ordre typique (à adapter niche) :
 
@@ -57,9 +62,10 @@ Après un add : vérifier indices — une suppression décale tout
 
 ## Anti-patterns
 
+- Imposer des sections catalogue à un marchand qui vise un HTML premium
 - Premier viewport saturé (stats + promos + 3 CTA + carousel)
 - Cards partout (bordures / ombres inutiles) sur le héros
-- Purple gradient / cream+terracotta / look « IA générique » sans lien niche
+- Purple gradient / look « IA générique » sans lien niche
 - Écrire sur `target="home"` « pour aller plus vite »
 - Dupliquer grilles ET carrousels pour les mêmes catégories
 - Boutons fantômes vers `/products` si la boutique utilise `/product-list/…`
